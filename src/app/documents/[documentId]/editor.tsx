@@ -1,8 +1,11 @@
 // for pages and layout we use default export, everything else we use named export
 
 "use client";
+import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { TableKit } from "@tiptap/extension-table";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
 
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
@@ -14,8 +17,36 @@ export function Editor() {
           "focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor:text",
       },
     },
-    extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
+    extensions: [
+      StarterKit,
+      TaskList,
+      TaskItem.configure({ nested: true }),
+      TableKit.configure({ table: { resizable: true } }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        resize: {
+          enabled: true,
+          alwaysPreserveAspectRatio: true,
+          minWidth: 50,
+          minHeight: 50,
+        },
+      }),
+    ],
+    content: ` <table>
+             <tbody>
+               <tr>
+                 <th>Name</th>
+                 <th colspan="3">Description</th>
+               </tr>
+               <tr>
+                 <td>Cyndi Lauper</td>
+                 <td>Singer</td>
+                 <td>Songwriter</td>
+                 <td>Actress</td>
+               </tr>
+             </tbody>
+             </table>`,
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   });
