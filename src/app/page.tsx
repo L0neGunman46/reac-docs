@@ -8,7 +8,7 @@ function Page() {
       Click{" "}
       <Link href={"/documents/123"}>
         <span className="text-blue-800 underline">&nbsp;here&nbsp;</span>
-      </Link>{" "}
+      </Link>
       to go to documentsId
     </div>
   );
