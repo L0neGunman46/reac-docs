@@ -7,9 +7,37 @@ import { TableKit } from "@tiptap/extension-table";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 
+import { useEditorStore } from "@/store/use-editor-store";
+
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
+  const { setEditor } = useEditorStore();
   const editor = useEditor({
+    onCreate({ editor }) {
+      setEditor(editor);
+    },
+    // cleanup with Ondestroy, if we unmoun the error, clean the global state
+    onDestroy() {
+      setEditor(null);
+    },
+    onUpdate({ editor }) {
+      setEditor(editor);
+    },
+    onSelectionUpdate({ editor }) {
+      setEditor(editor);
+    },
+    onTransaction({ editor }) {
+      setEditor(editor);
+    },
+    onFocus({ editor }) {
+      setEditor(editor);
+    },
+    onBlur({ editor }) {
+      setEditor(editor);
+    },
+    onContentError({ editor }) {
+      setEditor(editor);
+    },
     editorProps: {
       attributes: {
         style: "padding-left:56px; padding-right:56px;",
