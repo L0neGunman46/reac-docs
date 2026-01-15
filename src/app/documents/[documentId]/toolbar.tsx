@@ -16,6 +16,8 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import { FontFamilyButton } from "./components/buttons/fontFamily";
+import { HeadingLevelButton } from "./components/buttons/headingLevel";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -55,7 +57,6 @@ this updates the editor onCreate but i want to keep it in sync for any updates p
 */
 export function Toolbar() {
   const { editor } = useEditorStore();
-  console.log("Toolbar Editor data: ", editor);
 
   const sections: {
     label: string;
@@ -138,19 +139,19 @@ export function Toolbar() {
       {sections[0].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}
-      <Separator orientation="vertical" className="!h-6 bg-neutral-300" />
-      {/*{TOD Font Familuy }*/}
-      <Separator orientation="vertical" className="!h-6 bg-neutral-300" />
-      {/*TOdo Heading*/}
-      <Separator orientation="vertical" className="!h-6 bg-neutral-300" />
-      {/*Todo Font size*/}
-      <Separator orientation="vertical" className="!h-6 bg-neutral-300" />
+      <Separator orientation="vertical" className="h-6! bg-neutral-300" />
+      <FontFamilyButton/>
+      <Separator orientation="vertical" className="h-6! bg-neutral-300" />
+      <HeadingLevelButton/>
+      <Separator orientation="vertical" className="h-6! bg-neutral-300" />
+      {/* Font Size */}
+      <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {sections[1].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}
       {/*Todo Text color*/}
       {/*Todo Highlight color*/}
-      <Separator orientation="vertical" className="!h-6 bg-neutral-300" />
+      <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {/*Tododo Link*/}
       {/*Image*/}
       {/*Align*/}

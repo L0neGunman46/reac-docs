@@ -6,6 +6,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { TableKit } from "@tiptap/extension-table";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import { FontFamily, TextStyle } from '@tiptap/extension-text-style'
 
 import { useEditorStore } from "@/store/use-editor-store";
 
@@ -47,6 +48,8 @@ export function Editor() {
     },
     extensions: [
       StarterKit,
+      FontFamily,
+      TextStyle,
       TaskList,
       TaskItem.configure({ nested: true }),
       TableKit.configure({ table: { resizable: true } }),

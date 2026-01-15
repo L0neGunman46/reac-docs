@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, EB_Garamond, Pacifico } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,6 +9,17 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const ebGaramond = EB_Garamond({
+  variable: "--font-eb-garamond",
+  subsets: ["latin"],
+});
+
+const pacifico = Pacifico({
+  weight: "400", 
+  variable: "--font-pacifico",
   subsets: ["latin"],
 });
 
@@ -25,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${ebGaramond.variable} ${pacifico.variable} antialiased`}
       >
         {children}
       </body>
