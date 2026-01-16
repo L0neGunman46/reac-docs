@@ -20,6 +20,8 @@ import { FontFamilyButton } from "./components/buttons/fontFamily";
 import { HeadingLevelButton } from "./components/buttons/headingLevel";
 import { TextColorButton } from "./components/buttons/textColor";
 import { HighlightColorButton } from "./components/buttons/highlightColor";
+import { LinkButton } from "./components/buttons/LinkComponent";
+import { ImageButton } from "./components/buttons/Image";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -154,8 +156,8 @@ export function Toolbar() {
       <TextColorButton/>
       <HighlightColorButton/>
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      {/*Tododo Link*/}
-      {/*Image*/}
+      <LinkButton/>
+      <ImageButton/>
       {/*Align*/}
       {/*Align height*/}
       {/* List*/}
