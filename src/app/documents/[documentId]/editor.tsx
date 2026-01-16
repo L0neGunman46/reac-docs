@@ -6,9 +6,10 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { TableKit } from "@tiptap/extension-table";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { FontFamily, TextStyle } from '@tiptap/extension-text-style'
-
+import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
 import { useEditorStore } from "@/store/use-editor-store";
+import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
@@ -49,6 +50,8 @@ export function Editor() {
     extensions: [
       StarterKit,
       FontFamily,
+      Highlight.configure({ multicolor: true }),
+      Color,
       TextStyle,
       TaskList,
       TaskItem.configure({ nested: true }),
@@ -62,6 +65,12 @@ export function Editor() {
           minWidth: 50,
           minHeight: 50,
         },
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https",
+        protocols: ["http", "https"],
       }),
     ],
     content: ` <table>

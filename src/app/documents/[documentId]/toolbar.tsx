@@ -18,6 +18,10 @@ import {
 } from "lucide-react";
 import { FontFamilyButton } from "./components/buttons/fontFamily";
 import { HeadingLevelButton } from "./components/buttons/headingLevel";
+import { TextColorButton } from "./components/buttons/textColor";
+import { HighlightColorButton } from "./components/buttons/highlightColor";
+import { LinkButton } from "./components/buttons/LinkComponent";
+import { ImageButton } from "./components/buttons/Image";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -149,11 +153,11 @@ export function Toolbar() {
       {sections[1].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}
-      {/*Todo Text color*/}
-      {/*Todo Highlight color*/}
+      <TextColorButton/>
+      <HighlightColorButton/>
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      {/*Tododo Link*/}
-      {/*Image*/}
+      <LinkButton/>
+      <ImageButton/>
       {/*Align*/}
       {/*Align height*/}
       {/* List*/}
