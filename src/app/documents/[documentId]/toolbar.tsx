@@ -24,6 +24,7 @@ import { LinkButton } from "./components/buttons/LinkComponent";
 import { ImageButton } from "./components/buttons/Image";
 import { AlignButton } from "./components/buttons/align";
 import { ListButton } from "./components/buttons/List";
+import { FontSizeButton } from "./components/buttons/fontSize";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -150,7 +151,7 @@ export function Toolbar() {
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      {/* Font Size */}
+      <FontSizeButton/>
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {sections[1].map((item) => (
         <ToolBarButton key={item.label} {...item} />

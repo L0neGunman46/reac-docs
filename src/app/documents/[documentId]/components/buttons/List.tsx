@@ -5,14 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import {
-  AlignCenter,
-  AlignJustifyIcon,
-  AlignLeftIcon,
-  AlignRightIcon,
-  ListIcon,
-  ListOrderedIcon,
-} from "lucide-react";
+import { ListIcon, ListOrderedIcon } from "lucide-react";
 
 export function ListButton() {
   const { editor } = useEditorStore();

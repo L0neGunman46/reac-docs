@@ -7,10 +7,13 @@ import { TableKit } from "@tiptap/extension-table";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
-import { useEditorStore } from "@/store/use-editor-store";
 import Highlight from "@tiptap/extension-highlight";
 import TextAlign from '@tiptap/extension-text-align'
 import Link from "@tiptap/extension-link";
+
+
+import { useEditorStore } from "@/store/use-editor-store";
+import { FontSizeExtension } from "@/extensions/font-size";
 
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
@@ -50,6 +53,7 @@ export function Editor() {
     },
     extensions: [
       StarterKit,
+      FontSizeExtension,
       FontFamily,
       Highlight.configure({ multicolor: true }),
       Color,
@@ -94,10 +98,10 @@ export function Editor() {
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   });
-
+// w-[816px] === w-204
   return (
     <div className="size-full overflow-x-auto bg-[#f9fbfd] px-4 print:p-0 print:bg-white print:overflow-visible">
-      <div className="min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0">
+      <div className="min-w-max flex justify-center w-204 py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
       </div>
     </div>
