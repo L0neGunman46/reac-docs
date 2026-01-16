@@ -22,6 +22,8 @@ import { TextColorButton } from "./components/buttons/textColor";
 import { HighlightColorButton } from "./components/buttons/highlightColor";
 import { LinkButton } from "./components/buttons/LinkComponent";
 import { ImageButton } from "./components/buttons/Image";
+import { AlignButton } from "./components/buttons/align";
+import { ListButton } from "./components/buttons/List";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -37,7 +39,7 @@ function ToolBarButton({ onClick, isActive, icon: Icon }: ToolBarButtonProps) {
       onClick={onClick}
       className={cn(
         "text-sm h-7 min-w-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80",
-        isActive && "bg-neutral-200/80",
+        isActive && "bg-neutral-200/80"
       )}
     >
       <Icon className="size-4" />
@@ -91,7 +93,7 @@ export function Toolbar() {
           const curr = editor?.view?.dom.getAttribute("spellcheck");
           editor?.view?.dom?.setAttribute(
             "spellcheck",
-            curr === "false" ? "true" : "false",
+            curr === "false" ? "true" : "false"
           );
         },
       },
@@ -144,23 +146,23 @@ export function Toolbar() {
         <ToolBarButton key={item.label} {...item} />
       ))}
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      <FontFamilyButton/>
+      <FontFamilyButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      <HeadingLevelButton/>
+      <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {/* Font Size */}
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {sections[1].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}
-      <TextColorButton/>
-      <HighlightColorButton/>
+      <TextColorButton />
+      <HighlightColorButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      <LinkButton/>
-      <ImageButton/>
-      {/*Align*/}
+      <LinkButton />
+      <ImageButton />
+      <AlignButton />
       {/*Align height*/}
-      {/* List*/}
+      <ListButton/>
       {sections[2].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}

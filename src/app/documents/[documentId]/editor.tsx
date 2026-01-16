@@ -9,6 +9,7 @@ import Image from "@tiptap/extension-image";
 import { FontFamily, TextStyle, Color } from "@tiptap/extension-text-style";
 import { useEditorStore } from "@/store/use-editor-store";
 import Highlight from "@tiptap/extension-highlight";
+import TextAlign from '@tiptap/extension-text-align'
 import Link from "@tiptap/extension-link";
 
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
@@ -53,6 +54,9 @@ export function Editor() {
       Highlight.configure({ multicolor: true }),
       Color,
       TextStyle,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
       TaskList,
       TaskItem.configure({ nested: true }),
       TableKit.configure({ table: { resizable: true } }),
