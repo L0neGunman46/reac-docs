@@ -25,6 +25,7 @@ import { ImageButton } from "./components/buttons/Image";
 import { AlignButton } from "./components/buttons/align";
 import { ListButton } from "./components/buttons/List";
 import { FontSizeButton } from "./components/buttons/fontSize";
+import { LineHeightButton } from "./components/buttons/lineHeight";
 
 // create a toolbar button component
 interface ToolBarButtonProps {
@@ -162,7 +163,7 @@ export function Toolbar() {
       <LinkButton />
       <ImageButton />
       <AlignButton />
-      {/*Align height*/}
+      <LineHeightButton/>
       <ListButton/>
       {sections[2].map((item) => (
         <ToolBarButton key={item.label} {...item} />
