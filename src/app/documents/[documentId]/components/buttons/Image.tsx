@@ -20,7 +20,7 @@ import { useState } from "react";
 
 export function ImageButton() {
   const { editor } = useEditorStore();
-  const [isDialogOpen, setIsDialogIOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
   const onChange = (src: string) => {
@@ -45,7 +45,7 @@ export function ImageButton() {
     if (imageUrl) {
       onChange(imageUrl);
       setImageUrl("");
-      setIsDialogIOpen(false);
+      setIsDialogOpen(false);
     }
   };
 
@@ -66,13 +66,13 @@ export function ImageButton() {
             <UploadIcon className="size-4 mr-2" />
             Upload
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setIsDialogIOpen(true)}>
+          <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
             <SearchIcon className="size-4 mr-2" />
             Paste Image Url
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogIOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Inert Image URL</DialogTitle>
