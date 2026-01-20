@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Navbar } from "./navbar";
+import { TemplatesGallery } from "./components/templates-gallery";
 
 function Page() {
   return (
@@ -10,11 +11,7 @@ function Page() {
         <Navbar />
       </div>
       <div className="mt-16">
-        Click{" "}
-        <Link href={"/documents/123"}>
-          <span className="text-blue-800 underline">&nbsp;here&nbsp;</span>
-        </Link>
-        to go to documentsId
+        <TemplatesGallery />
       </div>
     </div>
   );
