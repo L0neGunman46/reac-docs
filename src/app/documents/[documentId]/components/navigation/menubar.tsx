@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Menubar,
   MenubarContent,
@@ -29,12 +31,64 @@ import {
   Undo2Icon,
 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
+import { useEditorStore } from "@/store/use-editor-store";
+import { type Editor } from "@tiptap/react";
 
 enum IconClass {
   style = "size-4 mr-2",
 }
 
+function insertTable(
+  editor: Editor | null,
+  { rows, cols }: { rows: number; cols: number },
+) {
+  editor
+    ?.chain()
+    .focus()
+    .insertTable({ rows, cols, withHeaderRow: false })
+    .run();
+}
+
+function onDownload(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.click();
+}
+
+const onSaveJSON = (editor: Editor | null) => {
+  if (!editor) return;
+  const content = editor?.getJSON();
+  const blob = new Blob([JSON.stringify(content)], {
+    type: "application/json",
+  });
+  onDownload(blob, `document.json`); // todo use document name
+};
+
+function onSaveHTML(editor: Editor | null) {
+  if (!editor) return;
+
+  const content = editor?.getHTML();
+  const blob = new Blob([content], {
+    type: "application/html",
+  });
+  onDownload(blob, `document.html`);
+}
+
+function onSaveText(editor: Editor | null) {
+  if (!editor) return;
+
+  const content = editor.getText();
+  const blob = new Blob([content], {
+    type: "application/plain",
+  });
+  onDownload(blob, `document.txt`);
+}
+
 export function MenuBarComp() {
+  const { editor } = useEditorStore();
+
   return (
     <div className="flex">
       <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
@@ -49,19 +103,19 @@ export function MenuBarComp() {
                 Save
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem>
+                <MenubarItem onClick={() => onSaveJSON(editor)}>
                   <FileJsonIcon className={IconClass.style} />
                   JSON
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={() => onSaveHTML(editor)}>
                   <GlobeIcon className={IconClass.style} />
                   HTML
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={() => window.print()}>
                   <BsFilePdf className={IconClass.style} />
                   PDF
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem onClick={() => onSaveText(editor)}>
                   <FileTextIcon className={IconClass.style} />
                   Text
                 </MenubarItem>
@@ -92,11 +146,11 @@ export function MenuBarComp() {
             Edit
           </MenubarTrigger>
           <MenubarContent>
-            <MenubarItem>
+            <MenubarItem onClick={() => editor?.chain().focus().undo().run()}>
               <Undo2Icon className={IconClass.style} />
               Undo <MenubarShortcut>⌘Z</MenubarShortcut>
             </MenubarItem>
-            <MenubarItem>
+            <MenubarItem onClick={() => editor?.chain()?.focus().redo().run()}>
               <Redo2Icon className={IconClass.style} />
               Redo <MenubarShortcut>⌘Y</MenubarShortcut>
             </MenubarItem>
@@ -107,17 +161,31 @@ export function MenuBarComp() {
             Insert
           </MenubarTrigger>
           <MenubarContent>
-            <MenubarItem>
-              <MenubarSub>
-                <MenubarSubTrigger>Table</MenubarSubTrigger>
-                <MenubarSubContent>
-                  <MenubarItem>1 x 1</MenubarItem>
-                  <MenubarItem>2 x 2</MenubarItem>
-                  <MenubarItem>3 x 3</MenubarItem>
-                  <MenubarItem>4 x 4</MenubarItem>
-                </MenubarSubContent>
-              </MenubarSub>
-            </MenubarItem>
+            <MenubarSub>
+              <MenubarSubTrigger>Table</MenubarSubTrigger>
+              <MenubarSubContent>
+                <MenubarItem
+                  onClick={() => insertTable(editor, { rows: 1, cols: 1 })}
+                >
+                  1 x 1
+                </MenubarItem>
+                <MenubarItem
+                  onClick={() => insertTable(editor, { rows: 2, cols: 2 })}
+                >
+                  2 x 2
+                </MenubarItem>
+                <MenubarItem
+                  onClick={() => insertTable(editor, { rows: 3, cols: 3 })}
+                >
+                  3 x 3
+                </MenubarItem>
+                <MenubarItem
+                  onClick={() => insertTable(editor, { rows: 4, cols: 4 })}
+                >
+                  4 x 4
+                </MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
@@ -131,25 +199,37 @@ export function MenuBarComp() {
                 Text
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain().focus().toggleBold().run()}
+                >
                   <BoldIcon className={IconClass.style} />
                   Bold <MenubarShortcut>⌘B</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain().focus().toggleItalic().run()}
+                >
                   <ItalicIcon className={IconClass.style} />
                   Italic <MenubarShortcut>⌘I</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() =>
+                    editor?.chain()?.focus().toggleUnderline().run()
+                  }
+                >
                   <Underline className={IconClass.style} />
                   Underline <MenubarShortcut>⌘U</MenubarShortcut>
                 </MenubarItem>
-                <MenubarItem>
+                <MenubarItem
+                  onClick={() => editor?.chain()?.focus()?.toggleStrike().run()}
+                >
                   <StrikethroughIcon className={IconClass.style} />
                   StrikeThrough <MenubarShortcut>⌘S</MenubarShortcut>
                 </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
-            <MenubarItem>
+            <MenubarItem
+              onClick={() => editor?.chain()?.focus().unsetAllMarks().run()}
+            >
               <RemoveFormattingIcon className={IconClass.style} />
               Clear Formatting
             </MenubarItem>
