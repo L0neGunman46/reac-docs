@@ -14,6 +14,7 @@ import Link from "@tiptap/extension-link";
 import { useEditorStore } from "@/store/use-editor-store";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
+import { Ruler } from "./ruler";
 
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
@@ -105,6 +106,7 @@ export function Editor() {
   // w-[816px] === w-204
   return (
     <div className="size-full overflow-x-auto bg-[#f9fbfd] px-4 print:p-0 print:bg-white print:overflow-visible">
+      <Ruler />
       <div className="min-w-max flex justify-center w-204 py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
       </div>
