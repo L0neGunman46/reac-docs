@@ -9,6 +9,8 @@ import {
 } from "next/font/google";
 import "./globals.css";
 
+import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+
 const inter = Inter({
   subsets: ["latin"],
 });
@@ -49,7 +51,9 @@ export default function RootLayout({
         // className={`${geistSans.variable} ${geistMono.variable} ${ebGaramond.variable} ${pacifico.variable} antialiased`}
         className={inter.className}
       >
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <NuqsAdapter>
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

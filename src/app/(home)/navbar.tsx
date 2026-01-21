@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SearchInput } from "./search-input";
+import { UserButton } from "@clerk/nextjs";
 
 export function Navbar() {
   return (
@@ -11,8 +12,8 @@ export function Navbar() {
         </Link>
         <h3 className="text-xl">Docs</h3>
       </div>
-      <SearchInput/>
-      <div/> {/* This will be the auth login and logout  */}
+      <SearchInput />
+      <UserButton />
     </nav>
   );
 }
