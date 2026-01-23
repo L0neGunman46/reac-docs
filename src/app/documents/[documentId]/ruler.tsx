@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Marker } from "./components/rulerComps/marker";
+import { useMutation, useStorage } from "@liveblocks/react/suspense";
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
@@ -11,14 +12,17 @@ enum PageProperties {
 }
 
 export function Ruler() {
+  const leftMargin = useStorage((root) => root.leftMargin) ?? 56;
+  const setLeftMargin = useMutation(({ storage }, position: number) => {
+    storage.set("leftMargin", position);
+  }, []);
+  const rightMargin = useStorage((root) => root.rightMargin) ?? 56;
+
+  const setRightMargin = useMutation(({ storage }, position: number) => {
+    storage.set("rightMargin", position);
+  }, []);
   // we havee to dynamically adapt marker positions across all users
   // for now let us test locally
-  const [leftMargin, setLeftMargin] = useState(
-    PageProperties.DEFAULT_MARGIN_LEFT,
-  );
-  const [rightMargin, setRightMargin] = useState(
-    PageProperties.DEFAULT_MARGIN_RIGHT,
-  );
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
@@ -77,10 +81,7 @@ export function Ruler() {
       onMouseLeave={handleMouseUp}
       className="w-[816px] mx-auto h-6 border border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <div
-        id="ruler-container"
-        className="w-full h-full relative"
-      >
+      <div id="ruler-container" className="w-full h-full relative">
         <Marker
           postion={leftMargin}
           isLeft={true}
