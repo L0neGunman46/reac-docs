@@ -4,6 +4,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import React, { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -38,7 +39,11 @@ export const RenameDialog = ({
     e.preventDefault();
     setIsRenaming(true);
     update({ id: documentId, title: title.trim() || "Untitled" })
-      .then(() => setOpen(false))
+      .then(() => {
+        toast.success("Document Renamed Successfully!");
+        setOpen(false);
+      })
+      .catch(() => toast.error("Something went wrong!"))
       .finally(() => {
         setIsRenaming(false);
       });
