@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { DocumentMenu } from "./documentMenu";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type DocRowProps = {
   document: Doc<"documents">;
@@ -16,7 +17,10 @@ export function DocumentRow({ document }: DocRowProps) {
 
   return (
     <TableRow
-      onClick={() => router.push(`/documents/${document._id}`)}
+      onClick={() => {
+        toast.success("Document Loaded!");
+        router.push(`/documents/${document._id}`);
+      }}
       className="cursor-pointer"
     >
       <TableCell className="w-[50px]">

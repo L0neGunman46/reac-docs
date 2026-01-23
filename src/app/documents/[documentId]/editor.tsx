@@ -16,9 +16,18 @@ import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
 import { Ruler } from "./ruler";
 
+import {
+  FloatingToolbar,
+  useLiveblocksExtension,
+} from "@liveblocks/react-tiptap";
+import { Threads } from "./threads";
+
 // padding left and right in attributes will be dynamic, that is why we are writing it in style
 export function Editor() {
   const { setEditor } = useEditorStore();
+
+  const liveBlocks = useLiveblocksExtension();
+
   const editor = useEditor({
     onCreate({ editor }) {
       setEditor(editor);
@@ -53,7 +62,10 @@ export function Editor() {
       },
     },
     extensions: [
-      StarterKit,
+      liveBlocks,
+      StarterKit.configure({
+        history: false,
+      }),
       FontSizeExtension,
       LineHeightExtension.configure({
         types: ["paragraph", "heading"],
@@ -95,6 +107,8 @@ export function Editor() {
       <Ruler />
       <div className="min-w-max flex justify-center w-204 py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
+        <Threads editor={editor} />
+        <FloatingToolbar editor={editor} />
       </div>
     </div>
   );

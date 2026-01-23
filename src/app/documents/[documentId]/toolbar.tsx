@@ -41,7 +41,7 @@ function ToolBarButton({ onClick, isActive, icon: Icon }: ToolBarButtonProps) {
       onClick={onClick}
       className={cn(
         "text-sm h-7 min-w-7 flex items-center justify-center rounded-sm hover:bg-neutral-200/80",
-        isActive && "bg-neutral-200/80"
+        isActive && "bg-neutral-200/80",
       )}
     >
       <Icon className="size-4" />
@@ -95,7 +95,7 @@ export function Toolbar() {
           const curr = editor?.view?.dom.getAttribute("spellcheck");
           editor?.view?.dom?.setAttribute(
             "spellcheck",
-            curr === "false" ? "true" : "false"
+            curr === "false" ? "true" : "false",
           );
         },
       },
@@ -124,8 +124,8 @@ export function Toolbar() {
       {
         label: "Comment",
         icon: MessageSquarePlusIcon,
-        onClick: () => console.log("Todo; Comment"),
-        isActive: false,
+        onClick: () => editor?.chain().focus().addPendingComment().run(),
+        isActive: editor?.isActive("liveblocksCommentMark"),
       },
       {
         label: "List Todo",
@@ -152,7 +152,7 @@ export function Toolbar() {
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
-      <FontSizeButton/>
+      <FontSizeButton />
       <Separator orientation="vertical" className="h-6! bg-neutral-300" />
       {sections[1].map((item) => (
         <ToolBarButton key={item.label} {...item} />
@@ -163,8 +163,8 @@ export function Toolbar() {
       <LinkButton />
       <ImageButton />
       <AlignButton />
-      <LineHeightButton/>
-      <ListButton/>
+      <LineHeightButton />
+      <ListButton />
       {sections[2].map((item) => (
         <ToolBarButton key={item.label} {...item} />
       ))}
