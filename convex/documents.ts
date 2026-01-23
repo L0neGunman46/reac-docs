@@ -121,11 +121,20 @@ export const updateById = mutation({
     }
 
     const isOwner = doc.ownerId === user.subject;
-    const isOrgMember = doc.organizationId === organizationId;
+    const isOrgMember = !!(
+      doc.organizationId && doc.organizationId === organizationId
+    );
 
     if (!isOwner && !isOrgMember) {
       throw new ConvexError("UnAuthorised");
     }
     return await ctx.db.patch(args.id, { title: args.title });
+  },
+});
+
+export const getById = query({
+  args: { id: v.id("documents") },
+  handler: async (ctx, { id }) => {
+    return await ctx.db.get(id);
   },
 });
