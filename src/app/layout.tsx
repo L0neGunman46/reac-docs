@@ -10,6 +10,10 @@ import {
 import "./globals.css";
 
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+import { Toaster } from "@/components/ui/sonner";
+
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,7 +56,10 @@ export default function RootLayout({
         className={inter.className}
       >
         <NuqsAdapter>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            <Toaster />
+            {children}
+          </ConvexClientProvider>
         </NuqsAdapter>
       </body>
     </html>

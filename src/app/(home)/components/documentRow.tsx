@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { DocumentMenu } from "./documentMenu";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type DocRowProps = {
   document: Doc<"documents">;
@@ -16,7 +17,10 @@ export function DocumentRow({ document }: DocRowProps) {
 
   return (
     <TableRow
-      onClick={() => router.push(`/documents/${document._id}`)}
+      onClick={() => {
+        toast.success("Document Loaded!");
+        router.push(`/documents/${document._id}`);
+      }}
       className="cursor-pointer"
     >
       <TableCell className="w-[50px]">
@@ -24,12 +28,12 @@ export function DocumentRow({ document }: DocRowProps) {
       </TableCell>
       <TableCell className="font-medium md:w-[45%]">{document.title}</TableCell>
       <TableCell className="text-muted-foreground hidden md:flex items-center gap-2 ">
-        {document.organization_Id ? (
+        {document.organizationId ? (
           <Building2Icon className="size-4" />
         ) : (
           <CircleUserIcon className="size-4" />
         )}
-        {document.organization_Id ? "Organization" : "Personal"}
+        {document.organizationId ? "Organization" : "Personal"}
       </TableCell>
       <TableCell className="text-muted-foreground hidden md:table-cell">
         {format(new Date(document._creationTime), "MMM dd yyyy")}

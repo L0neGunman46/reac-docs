@@ -21,14 +21,12 @@ export const FontFamilyButton = () => {
     { label: "Verdana", value: "Verdana" },
   ];
 
-
-  console.log(editor?.getAttributes("textStyle"), "Here i am")
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "h-7 w-[120px] shrink-0 flex justify-between items-center rounded-sm  hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm"
+            "h-7 w-[120px] shrink-0 flex justify-between items-center rounded-sm  hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm",
           )}
         >
           <span className="truncate">
@@ -39,18 +37,20 @@ export const FontFamilyButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-1  flex flex-col gap-y-1">
         {fonts.map(({ label, value }) => (
-          <button
-            key={value}
-            onClick={() => editor?.chain().focus().setFontFamily(label).run()}
-            className={cn(
-              "flex items-center gap-x-2 px-2 py-1  rounded-sm hover:bg-neutral-200/80",
-              editor?.getAttributes("textStyle").fontFamily === value &&
-                "bg-neutral-200/80"
-            )}
-            style={{ fontFamily: value }}
-          >
-            <span className="text-sm">{label}</span>
-          </button>
+          <DropdownMenuItem key={value}>
+            <button
+              key={value}
+              onClick={() => editor?.chain().focus().setFontFamily(label).run()}
+              className={cn(
+                "flex items-center gap-x-2 px-2 py-1  rounded-sm hover:bg-neutral-200/80",
+                editor?.getAttributes("textStyle").fontFamily === value &&
+                  "bg-neutral-200/80",
+              )}
+              style={{ fontFamily: value }}
+            >
+              <span className="text-sm">{label}</span>
+            </button>
+          </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
