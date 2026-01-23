@@ -63,9 +63,7 @@ export function Editor() {
     },
     extensions: [
       liveBlocks,
-      StarterKit.configure({
-        history: false,
-      }),
+      StarterKit,
       FontSizeExtension,
       LineHeightExtension.configure({
         types: ["paragraph", "heading"],
