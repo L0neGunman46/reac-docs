@@ -1,5 +1,4 @@
 import { AuthConfig } from "convex/server";
-import { domainStr } from "./domain";
 
 export default {
   providers: [
