@@ -1,24 +1,29 @@
 import { useRef, useState } from "react";
 import { Marker } from "./components/rulerComps/marker";
+import { useMutation, useStorage } from "@liveblocks/react/suspense";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
 enum PageProperties {
   WIDTH = 816,
   MINIMUM_SPACE = 100,
-  DEFAULT_MARGIN_LEFT = 56,
-  DEFAULT_MARGIN_RIGHT = 56,
 }
 
 export function Ruler() {
+  const leftMargin =
+    useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+  const setLeftMargin = useMutation(({ storage }, position: number) => {
+    storage.set("leftMargin", position);
+  }, []);
+  const rightMargin =
+    useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
+
+  const setRightMargin = useMutation(({ storage }, position: number) => {
+    storage.set("rightMargin", position);
+  }, []);
   // we havee to dynamically adapt marker positions across all users
   // for now let us test locally
-  const [leftMargin, setLeftMargin] = useState(
-    PageProperties.DEFAULT_MARGIN_LEFT,
-  );
-  const [rightMargin, setRightMargin] = useState(
-    PageProperties.DEFAULT_MARGIN_RIGHT,
-  );
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
@@ -63,11 +68,11 @@ export function Ruler() {
   }
 
   const handleLeftDoubleClick = () => {
-    setLeftMargin(PageProperties.DEFAULT_MARGIN_LEFT);
+    setLeftMargin(LEFT_MARGIN_DEFAULT);
   };
 
   const handleRightDoubleClick = () => {
-    setRightMargin(PageProperties.DEFAULT_MARGIN_RIGHT);
+    setRightMargin(RIGHT_MARGIN_DEFAULT);
   };
   return (
     <div
@@ -77,10 +82,7 @@ export function Ruler() {
       onMouseLeave={handleMouseUp}
       className="w-[816px] mx-auto h-6 border border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <div
-        id="ruler-container"
-        className="w-full h-full relative"
-      >
+      <div id="ruler-container" className="w-full h-full relative">
         <Marker
           postion={leftMargin}
           isLeft={true}

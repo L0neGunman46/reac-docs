@@ -33,6 +33,17 @@ import {
 import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
 import { type Editor } from "@tiptap/react";
+import { Doc } from "../../../../../../convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "../../../../../../convex/_generated/api";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { RemoveDialog } from "@/components/removeDialog";
+import { RenameDialog } from "@/components/renameDialog";
+
+type MenuBarProps = {
+  data: Doc<"documents">;
+};
 
 enum IconClass {
   style = "size-4 mr-2",
@@ -57,38 +68,52 @@ function onDownload(blob: Blob, fileName: string) {
   a.click();
 }
 
-const onSaveJSON = (editor: Editor | null) => {
+const onSaveJSON = (editor: Editor | null, title: string) => {
   if (!editor) return;
   const content = editor?.getJSON();
   const blob = new Blob([JSON.stringify(content)], {
     type: "application/json",
   });
-  onDownload(blob, `document.json`); // todo use document name
+  onDownload(blob, `${title}.json`); // todo use document name
 };
 
-function onSaveHTML(editor: Editor | null) {
+function onSaveHTML(editor: Editor | null, title: string) {
   if (!editor) return;
 
   const content = editor?.getHTML();
   const blob = new Blob([content], {
     type: "application/html",
   });
-  onDownload(blob, `document.html`);
+  onDownload(blob, `${title}.html`);
 }
 
-function onSaveText(editor: Editor | null) {
+function onSaveText(editor: Editor | null, title: string) {
   if (!editor) return;
 
   const content = editor.getText();
   const blob = new Blob([content], {
     type: "application/plain",
   });
-  onDownload(blob, `document.txt`);
+  onDownload(blob, `${title}.txt`);
 }
 
-export function MenuBarComp() {
+export function MenuBarComp({ data }: MenuBarProps) {
   const { editor } = useEditorStore();
+  const router = useRouter();
 
+  const mutation = useMutation(api.documents.create);
+
+  const onNewDocument = () => {
+    mutation({
+      title: "Untitled Document",
+      initialContent: "",
+    })
+      .catch(() => toast.error("Something went wrong"))
+      .then((id) => {
+        toast.success("Document Created!");
+        router.push(`/documents/${id}`);
+      });
+  };
   return (
     <div className="flex">
       <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
@@ -103,11 +128,15 @@ export function MenuBarComp() {
                 Save
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem onClick={() => onSaveJSON(editor)}>
+                <MenubarItem
+                  onClick={() => onSaveJSON(editor, data?.title ?? "document")}
+                >
                   <FileJsonIcon className={IconClass.style} />
                   JSON
                 </MenubarItem>
-                <MenubarItem onClick={() => onSaveHTML(editor)}>
+                <MenubarItem
+                  onClick={() => onSaveHTML(editor, data?.title ?? "document")}
+                >
                   <GlobeIcon className={IconClass.style} />
                   HTML
                 </MenubarItem>
@@ -115,25 +144,38 @@ export function MenuBarComp() {
                   <BsFilePdf className={IconClass.style} />
                   PDF
                 </MenubarItem>
-                <MenubarItem onClick={() => onSaveText(editor)}>
+                <MenubarItem
+                  onClick={() => onSaveText(editor, data?.title ?? "document")}
+                >
                   <FileTextIcon className={IconClass.style} />
                   Text
                 </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
-            <MenubarItem>
+            <MenubarItem onClick={() => onNewDocument()}>
               <FilePlusIcon className={IconClass.style} />
               New Docment
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>
-              <FilePenIcon className={IconClass.style} />
-              Rename
-            </MenubarItem>
-            <MenubarItem>
-              <TrashIcon className={IconClass.style} />
-              Remove
-            </MenubarItem>
+            <RenameDialog documentId={data._id} initialTitle={data.title}>
+              <MenubarItem
+                onClick={(e) => e.stopPropagation()}
+                onSelect={(e) => e.preventDefault()}
+              >
+                <FilePenIcon className={IconClass.style} />
+                Rename
+              </MenubarItem>
+            </RenameDialog>
+            <RemoveDialog documentId={data._id}>
+              <MenubarItem
+                onClick={(e) => e.stopPropagation()}
+                onSelect={(e) => e.preventDefault()}
+              >
+                <TrashIcon className={IconClass.style} />
+                Remove
+              </MenubarItem>
+            </RemoveDialog>
+
             <MenubarSeparator />
             <MenubarItem onClick={() => window.print()}>
               <PrinterIcon className={IconClass.style} />
