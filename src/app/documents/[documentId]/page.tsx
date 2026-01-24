@@ -1,31 +1,34 @@
-//to fetch the id you can create an interface
-import { Editor } from "./editor";
-import { Navbar } from "./navbar";
-import { Room } from "./room";
-import { Toolbar } from "./toolbar";
-interface DocumentIDPage {
-  params: Promise<{ documentId: string }>;
-}
+import { auth } from "@clerk/nextjs/server";
+import { preloadQuery } from "convex/nextjs";
 
-const DocumentIdPage = async ({ params }: DocumentIDPage) => {
-  // const documentId = (await (params)).documentId;
-  // const awaitedParams = params;
-  // const documentId = awaitedParams.documentId;
+import { Id } from "../../../../convex/_generated/dataModel";
+import { DocumentPage } from "./document";
+import { api } from "../../../../convex/_generated/api";
+
+type DocumentIdPageProps = {
+  params: Promise<{ documentId: Id<"documents"> }>;
+};
+
+async function DocumentIdPage({ params }: DocumentIdPageProps) {
   const { documentId } = await params;
 
-  return (
-    <Room>
-      <div className="min-h-screen bg-[#FAFBFD]">
-        <div className="flex flex-col px-4 pt-2 gap-y-2 fixed top-0 left-0 right-0 z-10 bg-[#fafbfd] print:hidden">
-          <Navbar />
-          <Toolbar />
-        </div>
-        <div className="pt-[114px] print:pt-0">
-          <Editor />
-        </div>
-      </div>
-    </Room>
+  const { getToken } = await auth();
+  const token = (await getToken({ template: "convex" })) ?? undefined;
+
+  if (!token) {
+    throw new Error("UnAuthorised");
+  }
+
+  const preloadedDocument = await preloadQuery(
+    api.documents.getById,
+    { id: documentId },
+    { token },
   );
-};
+
+  if (!preloadedDocument) {
+    throw new Error("Document Not found!");
+  }
+  return <DocumentPage preloadedDocument={preloadedDocument} />;
+}
 
 export default DocumentIdPage;

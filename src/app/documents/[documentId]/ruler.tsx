@@ -1,22 +1,23 @@
 import { useRef, useState } from "react";
 import { Marker } from "./components/rulerComps/marker";
 import { useMutation, useStorage } from "@liveblocks/react/suspense";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
 enum PageProperties {
   WIDTH = 816,
   MINIMUM_SPACE = 100,
-  DEFAULT_MARGIN_LEFT = 56,
-  DEFAULT_MARGIN_RIGHT = 56,
 }
 
 export function Ruler() {
-  const leftMargin = useStorage((root) => root.leftMargin) ?? 56;
+  const leftMargin =
+    useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const setLeftMargin = useMutation(({ storage }, position: number) => {
     storage.set("leftMargin", position);
   }, []);
-  const rightMargin = useStorage((root) => root.rightMargin) ?? 56;
+  const rightMargin =
+    useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
 
   const setRightMargin = useMutation(({ storage }, position: number) => {
     storage.set("rightMargin", position);
@@ -67,11 +68,11 @@ export function Ruler() {
   }
 
   const handleLeftDoubleClick = () => {
-    setLeftMargin(PageProperties.DEFAULT_MARGIN_LEFT);
+    setLeftMargin(LEFT_MARGIN_DEFAULT);
   };
 
   const handleRightDoubleClick = () => {
-    setRightMargin(PageProperties.DEFAULT_MARGIN_RIGHT);
+    setRightMargin(RIGHT_MARGIN_DEFAULT);
   };
   return (
     <div
