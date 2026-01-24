@@ -42,5 +42,5 @@ next-env.d.ts
 
 
 # convex
-convex/_generated
+#convex/_generated
 convex/domain.ts
